@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game for Kids</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #ff6f61;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+            font-size: 0;
+        }
+
+        .card.matched {
+            background-color: #88d8b0;
+            cursor: default;
+        }
+
+        .card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .card.flipped img {
+            display: block;
+        }
+
+        #reset-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #ff6f61;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #reset-button:hover {
+            background-color: #ff3b2f;
+        }
+
+        #score {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Memory Game for Kids</h1>
+        <div id="game-board" class="game-board">
+            <!-- Cards will be dynamically added here -->
+        </div>
+        <button id="reset-button">Reset Game</button>
+        <p id="score">Moves: 0</p>
+    </div>
+    <script>
+        const images = [
+            'https://via.placeholder.com/80?text=🐶',
+            'https://via.placeholder.com/80?text=🐱',
+            'https://via.placeholder.com/80?text=🐰',
+            'https://via.placeholder.com/80?text=🐻',
+            'https://via.placeholder.com/80?text=🐼',
+            'https://via.placeholder.com/80?text=🦊',
+            'https://via.placeholder.com/80?text=🐶',
+            'https://via.placeholder.com/80?text=🐱',
+            'https://via.placeholder.com/80?text=🐰',
+            'https://via.placeholder.com/80?text=🐻',
+            'https://via.placeholder.com/80?text=🐼',
+            'https://via.placeholder.com/80?text=🦊'
+        ];
+        let flippedCards = [];
+        let matchedCards = [];
+        let moves = 0;
+
+        const gameBoard = document.getElementById('game-board');
+        const resetButton = document.getElementById('reset-button');
+        const scoreDisplay = document.getElementById('score');
+
+        // Shuffle the images
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Create the game board
+        function createBoard() {
+            shuffle(images);
+            gameBoard.innerHTML = '';
+            images.forEach((image, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                cardElement.dataset.value = image;
+                cardElement.dataset.index = index;
+                cardElement.addEventListener('click', flipCard);
+                const imgElement = document.createElement('img');
+                imgElement.src = image;
+                cardElement.appendChild(imgElement);
+                gameBoard.appendChild(cardElement);
+            });
+        }
+
+        // Flip a card
+        function flipCard() {
+            if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+                this.classList.add('flipped');
+                flippedCards.push(this);
+
+                if (flippedCards.length === 2) {
+                    setTimeout(checkMatch, 500);
+                    moves++;
+                    scoreDisplay.textContent = `Moves: ${moves}`;
+                }
+            }
+        }
+
+        // Check if the flipped cards match
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            if (card1.dataset.value === card2.dataset.value) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedCards.push(card1, card2);
+
+                if (matchedCards.length === images.length) {
+                    alert(`Congratulations! You won in ${moves} moves!`);
+                }
+            } else {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+            }
+            flippedCards = [];
+        }
+
+        // Reset the game
+        resetButton.addEventListener('click', () => {
+            flippedCards = [];
+            matchedCards = [];
+            moves = 0;
+            scoreDisplay.textContent = `Moves: ${moves}`;
+            createBoard();
+        });
+
+        // Initialize the game
+        createBoard();
+    </script>
+</body>
+</html>
