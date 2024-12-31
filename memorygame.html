@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://via.placeholder.com; font-src 'self' https://raw.githubusercontent.com; img-src 'self' https://via.placeholder.com; style-src 'self' 'unsafe-inline';">    <title>Memory Game for Kids</title>
+    <title>Memory Game for Kids</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -102,19 +102,20 @@
         <p id="score">Moves: 0</p>
     </div>
     <script>
+        // Online image URLs (replace with your own URLs if needed)
         const images = [
-            'https://via.placeholder.com/80?text=🐶',
-            'https://via.placeholder.com/80?text=🐱',
-            'https://via.placeholder.com/80?text=🐰',
-            'https://via.placeholder.com/80?text=🐻',
-            'https://via.placeholder.com/80?text=🐼',
-            'https://via.placeholder.com/80?text=🦊',
-            'https://via.placeholder.com/80?text=🐶',
-            'https://via.placeholder.com/80?text=🐱',
-            'https://via.placeholder.com/80?text=🐰',
-            'https://via.placeholder.com/80?text=🐻',
-            'https://via.placeholder.com/80?text=🐼',
-            'https://via.placeholder.com/80?text=🦊'
+            'https://img.icons8.com/color/96/dog.png',
+            'https://img.icons8.com/color/96/cat.png',
+            'https://img.icons8.com/color/96/rabbit.png',
+            'https://img.icons8.com/color/96/bear.png',
+            'https://img.icons8.com/color/96/panda.png',
+            'https://img.icons8.com/color/96/fox.png',
+            'https://img.icons8.com/color/96/dog.png',
+            'https://img.icons8.com/color/96/cat.png',
+            'https://img.icons8.com/color/96/rabbit.png',
+            'https://img.icons8.com/color/96/bear.png',
+            'https://img.icons8.com/color/96/panda.png',
+            'https://img.icons8.com/color/96/fox.png'
         ];
         let flippedCards = [];
         let matchedCards = [];
